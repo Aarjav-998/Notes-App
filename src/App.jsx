@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus ,FaPen, FaTrash } from 'react-icons/fa';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -21,18 +23,21 @@ function App() {
     if (!noteText.trim()) return;
     const newNotes = [...notes, { id: Date.now(), text: noteText }];
     saveNotes(newNotes);
+    toast.success("Note created!");
     closePopup();
   };
 
   const handleUpdate = () => {
     const updatedNotes = notes.map(note => note.id === editingNote.id ? { ...note, text: noteText } : note);
     saveNotes(updatedNotes);
+    toast.info("Note Edited!");
     closePopup();
   };
 
   const handleDelete = (id) => {
     const filteredNotes = notes.filter(note => note.id !== id);
     saveNotes(filteredNotes);
+    toast.error("Note Deleted!");
   };
 
   const openPopup = (note = null) => {
@@ -102,7 +107,11 @@ function App() {
           </div>
         )}
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
+
     </div>
+    
+
   );
 }
 
